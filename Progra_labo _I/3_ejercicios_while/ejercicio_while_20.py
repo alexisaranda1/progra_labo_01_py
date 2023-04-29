@@ -13,6 +13,8 @@
 # y se cree que existen infinitos números perfectos,
 # aunque no se ha podido demostrar matemáticamente esta afirmación.
 
+
+
 numero = int(input("Ingrese un número entero: "))
 i = 1
 
