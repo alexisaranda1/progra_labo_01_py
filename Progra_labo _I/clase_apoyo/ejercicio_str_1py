@@ -1,0 +1,28 @@
+# Alexis Aranda Division 1H
+
+# 1.Contar letras: Crea una función que tome una cadena
+#de texto como argumento y
+#cuente el número de letras que contiene.
+
+
+def contar_letras(cadena_carateres):
+    
+    contador = 0
+    
+    if not isinstance(cadena_carateres, str):
+        print("Entrada inválida: La entrada debe ser una cadena de texto.")
+        return False
+    for caracter in cadena_carateres:
+        if caracter.isalpha():
+            contador += 1            
+    return contador
+
+cadenda_carteres = input("ingrese una cadena de caracteres: ")
+cantidad_caracteres = contar_letras(cadenda_carteres)
+
+if cadenda_carteres != False:
+    print("la catidade de caracteres : {}".format(cadenda_carteres))
+    
+    
+    
+    
