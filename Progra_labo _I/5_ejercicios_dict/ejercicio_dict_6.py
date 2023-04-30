@@ -5,4 +5,6 @@
 # Imprime el valor correspondiente a la estación "invierno".
 
 estaciones_año = {"Primavera": 1, "Verano": 2, "Otoño" : 3, "Invierno": 4}
+
+
 print("El valor de invierno  es: {}".format(estaciones_año["Invierno"]))
