@@ -10,7 +10,7 @@ def clear_console() -> None:
     _ = input('Press a key to continue...')
     os.system('cls')
 
-#0
+#00
 def stark_normalizar_datos(heroes: list[dict]) -> None:
     '''Recorrer la lista y convertir al tipo de dato correcto las keys (solo con las keys que representan datos numéricos)
     Validar primero que el tipo de dato no sea del tipo al cual será casteado. Por ejemplo si una key debería ser entero (ejemplo edad) verificar antes que no se encuentre ya en ese tipo de dato.
@@ -130,6 +130,7 @@ def stark_imprimir_nombres_alturas(lista_heroes: list):
 
 
 def calcular_max(lista, key):
+    
     if not lista:
         return None
 
@@ -195,6 +196,7 @@ Un string que representa la key del dato a calcular, por ejemplo: ‘altura’, 
     
     
 #5.1
+
 def sumar_dato_heroe(lista_heroes, key):
     
     '''Crear la función 'sumar_dato_heroe' la cual recibirá como parámetro una lista de 
@@ -220,6 +222,7 @@ def sumar_dato_heroe(lista_heroes, key):
         
     return suma
 #5.2
+
 def dividir(dividendo, divisor):
     
     '''Crear la función  ‘dividir’ la cual recibirá como parámetro dos números 
@@ -237,6 +240,7 @@ def dividir(dividendo, divisor):
 
 
 #5.3
+
 def calcular_promedio(lista_heroes, dato_calcular):
     '''crear la función ‘calcular_promedio’ la cual recibirá como parámetro una lista de héroes
     y un string que representa el dato del héroe que se requiere calcular el promedio.
@@ -284,8 +288,21 @@ def imprimir_menu():
     el cual permite utilizar toda la funcionalidad ya programada. 
     Se deberá reutilizar la función antes creada encargada de imprimir un string (1.2)
     '''
-    imprimir_dato('\t1) Imprimir nombres :\n\t2) Imprimir Nombre y Altura :'
-                  '\n\t3) cacular maximo Fuerza  \n\t 4) Calular promedio Altura:')
+    imprimir_dato( "\t1)Analizar detenidamente el set de datos \n"
+    "\t2)Recorrer la lista imprimiendo por consola el nombre de cada"
+        " superhéroe\n"
+    "\t3)Recorrer la lista imprimiendo por consola nombre de cada"
+          " superhéroe junto a la altura del mismo\n"
+    "\t4)Recorrer la lista y determinar cuál es el superhéroe más alto"
+          " (MÁXIMO)\n"
+    "\t5)Recorrer la lista y determinar cuál es el superhéroe más bajo"
+          " (MÍNIMO)\n"
+    "\t6)Recorrer la lista y determinar la altura promedio de los "
+          "\tsuperhéroes (PROMEDIO)\n"
+    "\t7)Informar cual es el Nombre del superhéroe asociado a cada uno de \n"
+          "\tlos indicadores anteriores (MÁXIMO, MÍNIMO)\n"
+    "\t8)Calcular e informar cual es el superhéroe más y menos pesado.\n"
+    "\t9) salir")
 
 
 #6.2
@@ -297,6 +314,7 @@ que sea sea un string conformado únicamente por dígitos.
 Retornara True en caso de serlo, False caso contrario
 '''
     return cadena_numeros.isdigit()
+
  
 #6.3
 
@@ -304,10 +322,10 @@ def stark_menu_principal(max_intentos=3):
     imprimir_menu()
     contador_intentos = 0
     opcion = input("Ingrese el número de una opción: ")
-    
+
 
     while contador_intentos < max_intentos:
-        if validar_entero(opcion) and int(opcion) in range(1, 5):
+        if validar_entero(opcion) and int(opcion) in range(1, 100):
             return int(opcion)
         else:
             contador_intentos += 1
@@ -323,11 +341,13 @@ def stark_menu_principal(max_intentos=3):
 
 def stark_marvel_app (lista_personajes):
     
-    '''Crear la función 'stark_marvel_app' la cual recibirá por parámetro 
-    la lista de héroes y se encargará de la ejecución principal de nuestro programa. 
-     Debe informar por consola en caso de seleccionar una 
-    opción incorrecta y volver a pedir el dato al usuario. Reutilizar
-    las funciones con prefijo 'stark_' donde crea correspondiente.'''
+    '''Crear la función 'stark_marvel_app' la cual recibirá por parámetro la
+    lista de héroes y se encargará de la ejecución principal de nuestro programa. 
+    Utilizar if/elif o match según prefiera
+    (match solo para los que cuentan con python 3.10+). 
+    Debe informar por consola en caso de seleccionar una opción incorrecta y 
+    volver a pedir el dato al usuario. Reutilizar las funciones con prefijo 'stark_' 
+    donde crea correspondiente.'''
     
     stark_normalizar_datos(lista_personajes)
     
@@ -335,23 +355,74 @@ def stark_marvel_app (lista_personajes):
         opcion = stark_menu_principal()
         
         match opcion:
-        
-            case 1:
-                stark_imprimir_nombres_heroes(lista_personajes)
-            case 2:
-                stark_imprimir_nombres_alturas(lista_personajes)
-            case 3:
-                stark_calcular_imprimir_heroe(lista_personajes, "maximo", "fuerza") 
-            case 4:
-                stark_calcular_imprimir_promedio_altura(lista_personajes)
             case -1:
-                print("Salio")
+                  print("Error, vuelva a inicar el programa: ")
+            case 1:
+                #1)Analizar detenidamente el set de datos 
+                print("\n---- nombre: {0} - identidad: {1} - empresa: {2} -")
+               
+            case 2:
+                stark_imprimir_nombres_heroes(lista_personajes)
+                
+            case 3:
+                stark_imprimir_nombres_alturas(lista_personajes)
+                
+            case 4:
+                stark_calcular_imprimir_heroe(lista_personajes, "maximo", "altura") 
+            case 5:
+                stark_calcular_imprimir_heroe(lista_personajes, "minimo", "altura") 
+            case 6:
+                stark_calcular_imprimir_promedio_altura(lista_personajes)
+            case 7:
+                 stark_calcular_imprimir_heroe(lista_personajes, "maximo", "altura") 
+                 stark_calcular_imprimir_heroe(lista_personajes, "minimo", "altura") 
+            case 8:
+                
+                 stark_calcular_imprimir_heroe(lista_personajes, "maximo", "peso") 
+                 stark_calcular_imprimir_heroe(lista_personajes, "minimo", "peso") 
+                 
+            case 9:
+                
+                
+                lista = lista_personajes
+                lista_auxiliar = []
+                bandera_swap = True
+                ordenada = True
+                
+                for i in range(len(lista)-1):
+                    if lista[i]["altura"] > lista[i+1]["altura"]:
+                        print("ya esta ordenada")
+                        ordenada = False
+                        break
+                if not ordenada:
+                    
+                    for i in range(len(lista)-1):
+                        
+                        for j in range(i+1, len(lista)):
+                            
+                            if(lista[i]['altura'] > lista[j]['altura']):
+                                
+                                aux = lista[i]
+                                lista[i] = lista[j]
+                                lista[j] = aux
+                                print("se ordeno")
+
+                print("Lista ordenada:")
+                for heroe in lista:
+                    print(heroe['nombre'],heroe['altura'], "\n\n")
+
                 break
+                
+             
             
         clear_console()
 
 
+
+
 #main 
 
+
 stark_marvel_app(lista_personajes)
+
    

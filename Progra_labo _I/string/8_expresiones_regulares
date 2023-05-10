@@ -1,0 +1,149 @@
+import re
+
+
+
+def  es_mayuscula (texto : str) -> bool:
+    '''La función `def es_mayuscula(texto: str) -> bool:` toma una cadena 
+`texto` como entrada y verifica si contiene solo caracteres alfabéticos
+en mayúsculas y espacios. Utiliza una expresión regular `^[A-Z]+$` para
+coincidir con el patrón. Si se encuentra el patrón, la función devuelve
+`Verdadero`; de lo contrario, devuelve `Falso`.'''
+    
+    if re.search('^[A-Z ]+$', texto):
+        return True
+    else:
+        return False 
+    
+    
+
+def  es_minuscula  (texto : str) -> bool:
+    
+    '''La función `es_minuscula` toma una cadena `texto` como entrada
+y verifica si contiene solo caracteres alfabéticos en minúsculas y
+espacios. Utiliza una expresión regular `^[a-z]+$` 
+para coincidir con el patrón. Si se encuentra el patrón, 
+la función devuelve `Verdadero`; de lo contrario, devuelve `Falso`.'''
+    
+    if re.search('^[a-z ]+$', texto):
+        return True
+    else:
+        return False 
+    
+
+def es_entero(texto):
+    
+    '''La función `es_entero` toma una cadena `texto` como entrada y comprueba 
+si contiene solo números enteros (positivos o negativos). Utiliza 
+una expresión regular `r'^([-+]?[0-9]+)$'` para coincidir con el patrón. 
+Si se encuentra el patrón, la función devuelve `Verdadero`; de lo contrario,
+devuelve `Falso`.'''
+    if re.search('^([-+]?[0-9]+)$', texto):
+    
+        return True
+    else:
+        return False 
+
+
+def  es_solo_texto (texto ) -> bool:
+    
+    '''La función `es_solo_texto` toma una cadena `texto` como entrada y 
+verifica si contiene solo caracteres alfabéticos (tanto mayúsculas como 
+minúsculas) y espacios. Utiliza una expresión regular `^[a-zA-Z ]+$` 
+para coincidir con el patrón. Si se encuentra el patrón, la función 
+devuelve `Verdadero`; de lo contrario, devuelve `Falso`.'''
+
+    if re.search('^[a-zA-Z ]+$', texto):
+        return True
+    else:
+        return False 
+
+
+import re
+
+def es_decimal(expresion: str, separador: str) -> bool:
+    '''La función `es_decimal` recibe una expresión y un separador decimal
+    y devuelve True si la expresión representa un número decimal válido
+    o False en caso contrario'''
+    
+    # Definimos la expresión regular para buscar números decimales
+    patron = '^[-+]?[0-9]*\.?[0-9]+$'
+    
+    # Reemplazamos el separador decimal por un punto (si es una coma)
+    if separador == ',':
+        expresion = expresion.replace(',', '.')
+    
+    # Verificamos si la expresión se corresponde con un número decimal
+    if re.search(patron, expresion):
+        return True
+    else:
+        return False
+
+
+def es_alfanumerico(texto) -> bool:
+    '''La función `es_alfanumerico` toma una cadena `texto` como entrada 
+    y comprueba si contiene solo caracteres alfanuméricos (letras y
+    números). Utiliza una expresión regular `'^([a-zA-Z0-9]+)$'` 
+    para coincidir con el patrón. Si se encuentra el patrón, 
+    la función devuelve `Verdadero`; de lo contrario, devuelve `Falso`.'''
+    
+    if re.search('^([a-zA-Z0-9]+)$', texto):
+        return True
+    else:
+        return False 
+
+
+def es_binario(numero:str):
+    
+    if re.search('^([0-1]{1,8})$', numero):
+        
+        return True
+    else:
+        return False 
+    
+    
+    
+    
+def filtra_plabras_con_U (texto :str ) -> str:
+    
+    patron = r'\b[Uu][a-zA-Z]*\b'
+
+    coincidencia = re.findall(patron, texto)
+
+    return coincidencia
+
+
+    
+    
+
+texto = " Sot un texto Randon "
+
+mayuscula_resultado = es_mayuscula("HOLA COMO ESTAS")
+minuscula_resultado = es_minuscula("hola como estas")
+
+print("Es mayuscula: {0}".format(mayuscula_resultado))
+
+print("Es minuscula: {0}".format(minuscula_resultado))
+
+entero_resultado = es_entero("12323232")
+
+print("Es entero: {0}".format(entero_resultado))
+
+
+es_texto_resultado =es_solo_texto (texto )
+
+print("Es texto : {0}".format(es_texto_resultado))
+
+
+decimal_resultado = es_decimal("5465,22", ",")
+
+print("ES decimal: {0} ".format(decimal_resultado))
+print("Es alfanumerico : {0} ".format(es_alfanumerico("343dsfdf243")))
+print("Es binario : {0}".format(es_binario("01111101")))
+
+
+palabras_con_U = filtra_plabras_con_U("La universidad es un lugar para aprender")
+print(palabras_con_U)  # debería imprimir: ['universidad']
+
+
+
+

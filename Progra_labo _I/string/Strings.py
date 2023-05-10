@@ -124,7 +124,7 @@ def crear_mail(nombre:str, apelido:str):
     nombre_minuscula = cambiar_string_minuscula(nombre_sin_espacios)
     apelido_minuscula =cambiar_string_minuscula(apellido_sin_espacio)
     
-    email_crado = f"{nombre_minuscula[0]}_{nombre_minuscula}.{apelido_minuscula}@utn-fra.com.ar" 
+    email_crado = f"{nombre_minuscula[0]}{apelido_minuscula[0]}_{nombre_minuscula}.{apelido_minuscula}@utn-fra.com.ar" 
    
     return email_crado
 
@@ -230,10 +230,18 @@ def contar_palabras(texto):
     return diccionario
 
 
+
+
+
+
+
+#main
 while True:
     muestra_menu()
     opcion_str = input("Ingrese una opcion: ")
+    
     opcion = int(opcion_str)
+    
     match opcion:
         case 1:
             #Escribir una función que reciba un string y devuelva el
@@ -315,7 +323,6 @@ while True:
             apellido = input("ingrese su apellido : ")
             mail = crear_mail(nombre , apellido)
             print(mail)
-          
         case 11:
             #Escribir una función que tome una lista de palabras
             # y devuelva un string que contenga todas las palabras 
