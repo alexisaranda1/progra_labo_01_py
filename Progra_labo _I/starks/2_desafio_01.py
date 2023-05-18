@@ -31,7 +31,7 @@ def muestra_menu():
     print("P) para salir.")
 
 
-def recorre_imprime_nombre_segundo_genero(lista_heroes: list, genero: str) -> None:
+def recorre_imprime_nombre_segun_genero(lista_heroes: list, genero: str) -> None:
 
     for heroe in lista_heroes:
         if heroe["genero"] == genero:
@@ -257,9 +257,9 @@ while True:
     opcion = input("Ingrese una opcion: ")
     match opcion:
         case "A":
-            recorre_imprime_nombre_segundo_genero(lista_personajes, "M")
+            recorre_imprime_nombre_segun_genero(lista_personajes, "M")
         case "B":
-            recorre_imprime_nombre_segundo_genero(lista_personajes, "F")
+            recorre_imprime_nombre_segun_genero(lista_personajes, "F")
         case "C":
             heroe_segun_altura_genero(lista_personajes, "M", "Alto")
         case "D":
