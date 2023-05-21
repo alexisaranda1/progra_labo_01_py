@@ -282,6 +282,7 @@ esté vacía para realizar sus acciones, caso contrario no hará nada y retornar
     
     
 #6.1
+
 def imprimir_menu():
     
     '''Crear la función "imprimir_menu" que imprima el menú de opciones por pantalla, 

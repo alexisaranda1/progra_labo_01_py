@@ -1,43 +1,52 @@
 import re
 import json
 
-def stark_normalizar_datos(lista_heroes: list[dict]) -> None:
-    '''Recorrer la lista y convertir al tipo de dato correcto las keys (solo con las keys que 
-    representan datos numéricos)
-    Validar primero que el tipo de dato no sea del tipo al cual será casteado. Por ejemplo si 
-    una key
-    debería ser entero (ejemplo edad) verificar antes que no se encuentre ya en ese tipo de dato.
-    Si al menos un dato fue modificado, la función deberá imprimir como mensaje ‘Datos normalizados’,
-    caso contrario no imprimirá nada.
-    Validar que la lista de héroes no esté vacía para realizar sus acciones,
-    caso contrario imprimirá el mensaje: “Error: Lista de héroes vacía”
 
-    '''
+def stark_normalizar_datos(lista_heroes: list[dict]) -> None:
+    """
+    Normaliza los datos en una lista de diccionarios convirtiendo
+    ciertos valores de cadena en números enteros o flotantes.
+    Parametro:
+        -lista_heroes: list[dict]: Una lista de diccionarios que representan héroes y sus atributos
+    Retorno : 
+        -None: la funcion no retorna ningun valor.
+    """
     if lista_heroes:
         # Recorro cada diccionario de heroe de la lista
         for heroe in lista_heroes:
             key_list = list(heroe.keys())
             # Recorro las claves que me interesan castear
             for key in key_list:
+
                 if type(heroe[key]) is str:
-                    valor_reemplazado: str = heroe[key].replace('.', '') # reemplaza un "." por un ""
-                    if   type(heroe[key]) is str and valor_reemplazado.isnumeric():
-                        if '.' in heroe[key] and heroe[key].count('.') == 1:
-                            #verificar si el valor de la clave key 
-                            #contiene exactamente un punto en su interior
-                            heroe[key] = float(heroe[key])
-                        else:
-                            heroe[key] = int(heroe[key])
-                            #print(f'El dato {key} fue modificada para el heroe: {heroe["nombre"]}')
+                    if not heroe[key]:
+                        pass
+                        # heroe[key]= 'No tiene'
+                        # print(heroe)
+                    else:
+                        valor_reemplazado: str = heroe[key].replace(
+                            '.', '')  # reemplaza un "." por un ""
+                        if type(heroe[key]) is str and valor_reemplazado.isnumeric():
+                            if '.' in heroe[key] and heroe[key].count('.') == 1:
+                                # verificar si el valor de la clave key
+                                # contiene exactamente un punto en su interior
+                                heroe[key] = float(heroe[key])
+                            else:
+                                heroe[key] = int(heroe[key])
+                                # print(f'El dato {key} fue modificada para el heroe: {heroe["nombre"]}')
     else:
         print('Error La lista esta vacía.')
-        
-#1.1
 
-  
-def imprimir_menu_Desafio_5():
+# 1.1
+
+
+def imprimir_menu_Desafio_5() -> None:
     """
-    Esta función imprime un menú con diferentes opciones.
+    Esta función imprime un menú con diferentes opciones para un desafío relacionado con los
+    superhéroes.
+
+    Retorno : 
+        -None: la funcion no retorna ningun valor.
     """
     menu = '''\n\t------------------- Menu---------------------------------------\n
     A)Recorrer la lista imprimiendo por consola el nombre de cada superhéroe de género M.
@@ -59,43 +68,58 @@ def imprimir_menu_Desafio_5():
     '''
     imprimir_dato(menu)
 
-#1.2
+# 1.2
+
 
 def stark_menu_principal_desafio_5():
     """
     Esta función muestra un menú y solicita al usuario que ingrese una opción, devolviendo la opción si
     coincide con un patrón determinado o -1 de lo contrario.
-    
-    @return Si la entrada del usuario coincide con el patrón de expresión regular '[A-OZ]{1}', la
-    función devolverá la cadena de entrada en mayúsculas. De lo contrario, devolverá -1.
+
+    :retorno: ya sea la entrada del usuario (si coincide con el patrón de expresión regular) o -1 si la
+    entrada no coincide con el patrón.
     """
+
     imprimir_menu_Desafio_5()
     opcion = input("Ingrese una opcion: ").upper()
     if re.match('[A-OZ]{1}', opcion):
-        return opcion    
+        return opcion
     return -1
- #1.2   
-def imprimir_dato(cadena_caracteres: str):
+
+ # 1.2
+
+
+def imprimir_dato(cadena_caracteres: str) -> None:
     """
-    La función "imprimir_dato" comprueba si la entrada es una cadena y la imprime, de lo contrario,
-    imprime un mensaje diciendo que no es una cadena.
-    
-    @param cadena_caracteres una variable de tipo cadena que representa una secuencia de caracteres.
+    La función "imprimir_dato" comprueba si la entrada es una cadena y la imprime, de lo contrario
+    imprime "No es una cadena de texto".
+
+    Parametro:
+      cadena_caracteres: de tipo string (str) que representa una
+    secuencia de caracteres. 
+
+     Retorno : 
+        -None: la funcion no retorna ningun valor.
     """
+
     if type(cadena_caracteres) == str:
         print(cadena_caracteres)
     else:
         print("No es una cadena de texto")
 
-#1.4
-def leer_archivo(ruta: str)-> list:
+# 1.4
+
+
+def leer_archivo(ruta: str) -> list:
     """
-    La función lee un archivo JSON de una ruta determinada y devuelve una lista de héroes del archivo.
-    
-    @param ruta El parámetro "ruta" es una cadena que representa la ruta del archivo JSON que debe
-    leerse.
-    
-    @return una lista de héroes leída de un archivo JSON ubicado en la ruta especificada.
+    Esta función lee un archivo JSON de una ruta determinada y devuelve una lista de héroes.
+
+    Parametro 
+        -ruta:  es una cadena que representa la ruta del archivo JSON que contiene
+        los datos a leer
+
+    :return: una lista de héroes leída de un archivo JSON ubicado en la ruta especificada.
+
     """
 
     with open(ruta, 'r') as archivo:
@@ -103,9 +127,23 @@ def leer_archivo(ruta: str)-> list:
         lista_heroes = contenido['heroes']
     return lista_heroes
 
-# #1.5 
-def guardar_archivo(nombre_archivo:str, contenido)-> bool:
+# #1.5
 
+
+def guardar_archivo(nombre_archivo: str, contenido: str) -> bool:
+    """
+    Esta función guarda el contenido de una cadena en un archivo con el nombre de archivo dado y
+    devuelve un valor booleano que indica si la operación fue exitosa o no.
+
+    Parametros: 
+        -nombre_archivo: Una cadena que representa el nombre del archivo que se va a crear o
+        sobrescribir
+
+        -contenido: El contenido que se escribirá en el archivo. Debería ser una cadena
+
+    :retorno: 
+        -un valor booleano, ya sea True o False, según si el archivo se creó correctamente o no.
+    """
 
     with open(nombre_archivo, 'w+') as archivo:
         resultado = None
@@ -116,179 +154,140 @@ def guardar_archivo(nombre_archivo:str, contenido)-> bool:
 
     print("Error al crear el archivo: {0}".format(nombre_archivo))
     return False
+# 1.6
 
 
-
-
-# def guardar_archivo(nombre_archivo:str, lista:list) -> bool:
-#     """
-#     La función guarda una lista de diccionarios que contienen información de héroes en un archivo CSV.
-    
-#     @param nombre_archivo Una cadena que representa el nombre del archivo que se va a crear o
-#     sobrescribir.
-#     @param lista Una lista de diccionarios con información sobre héroes.
-    
-#     @return un valor booleano, True si el archivo se creó correctamente y False en caso contrario.
-#     """
-#     """
-#     Guarda una lista de diccionarios en un archivo CSV.
-#     Parámetros:
-#     - nombre_archivo: str. El nombre del archivo a crear o sobrescribir.
-#     - lista: list. Una lista de diccionarios con información de héroes.
-#     Retorna:
-#     - bool. True si se creó el archivo exitosamente, False si no.
-#     """
-
-#     with open(nombre_archivo, "w", encoding="utf-8") as archivo:
-#         resultado = None
-#         for heroe in lista:
-#             print(heroe['nombre'])
-#             mensaje = "{0},{1},{2},{3},{4},{5}\n"
-#             print(heroe['nombre'])
-#             mensaje = mensaje.format(   heroe["nombre"].replace(",","-").replace("\n","."),
-#                                         heroe["identidad"].replace(",","-").replace("\n","."),
-#                                         heroe["empresa"].replace(",","-").replace("\n","."),
-#                                         heroe["altura"].replace(",","-").replace("\n","."),
-#                                         heroe["peso"].replace(",","-").replace("\n","."),
-#                                         heroe["genero"].replace(",","-").replace("\n","."),
-#                                         heroe["color_ojos"].replace(",","-").replace("\n","."),
-#                                         heroe["color_pelo"].replace(",","-").replace("\n","."),
-#                                         heroe["fuerza"].replace(",","-").replace("\n","."),
-#                                         heroe["inteligencia"].replace(",","-").replace("\n","."))
-#             resultado = archivo.write(mensaje)
-    
-#         if resultado:
-#             print("Se creó el archivo: {0}".format(nombre_archivo))
-#             return True
-    
-#         print("Error al crear el archivo: {0}".format(nombre_archivo))
-#         return False
-
-#aca va el mach
-
-#1.6
-
-def capitalizar_palabras(texto: str):
+def capitalizar_palabras(texto_capitalizar: str) -> str:
     """
-    La función escribe en mayúscula la primera letra de cada palabra en una cadena dada.
-    
-    @param texto una cadena de texto que contiene una o más palabras separadas por espacios.
-    
-    @return una cadena con todas las palabras de la cadena de entrada en mayúsculas.
+    La función escribe en mayúsculas cada palabra en una cadena dada y devuelve la cadena en mayúsculas.
+
+    Parametro: 
+        -texto_capitalizar (str) : Una cadena que contiene el texto que se escribirá en mayúsculas
+
+    retorno: 
+        texto_capitalizado(str) : una cadena con todas las palabras de la cadena de entrada en mayúsculas.
     """
+
     capitalizados = []
-    palabras = texto.split()  # dividir el texto en una lista de palabras
+    texto_capitalizado = ""
+    # dividir el texto en una lista de palabras
+    palabras = texto_capitalizar.split()
     for palabra in palabras:
         capitalizada = palabra.capitalize()  # capitalizar cada palabra en la lista
         capitalizados.append(capitalizada)
+    # unir las palabras capitalizadas en un solo string con espacios entre ellas
+    texto_capitalizado = " ".join(capitalizados)
 
-    return " ".join(capitalizados)  # unir las palabras capitalizadas en un solo string con espacios entre ellas
+    return texto_capitalizado
+# 1.7
 
-#1.7
 
 def obtener_nombre_capitalizado(heroe: dict) -> str:
     """
-    Esta función toma un diccionario que contiene el nombre de un héroe y devuelve el nombre con cada
-    palabra en mayúscula.
-    
-    @param heroe Un diccionario que contiene información sobre un héroe, incluido su nombre.
-    
-    @return una cadena que incluye el nombre en mayúscula de un héroe, precedido por la palabra
-    "Nombre:".
-    """
+    Esta función toma un diccionario que contiene el nombre de un héroe y devuelve la versión en
+    mayúsculas del nombre con una etiqueta.
 
+    Parametro:
+      -heroe (dict): un diccionario que contiene información sobre un héroe, incluido su nombre
+
+    Retorno: 
+        -resultado : Una cadena que incluye el nombre en mayúscula de un héroe.
+    """
     nombre = heroe['nombre']
     nombre_capitalizado = capitalizar_palabras(nombre)
     resultado = "Nombre: {0}".format(nombre_capitalizado)
     return resultado
 
+
 def obtener_dato(heroe: dict, key: str) -> str:
     """
-    La función toma un diccionario y una clave como entrada y devuelve el valor de la clave en una
-    cadena formateada o un mensaje si no se encuentra la clave.
-    
-    @param heroe Un diccionario que contiene información sobre un héroe.
-    @param key La clave es una cadena que representa los datos específicos que queremos obtener del
-    diccionario héroe. Se utiliza para acceder al valor asociado a esa clave en el diccionario.
-    
-    @return una cadena que incluye la clave en mayúsculas y el valor correspondiente del diccionario
-    héroe, o un mensaje que indica que no se encontraron los datos si la clave no está presente en el
-    diccionario.
+    Esta función toma un diccionario y una clave como entrada y devuelve el valor asociado con la clave
+    en una cadena formateada o un mensaje si no se encuentra la clave.
+
+    Parametros: 
+        -heroe(dicc): un diccionario que contiene información sobre un héroe
+        -key(str) : una cadena que representa la clave de un valor específico en un diccionario. 
+
+    Retorno: 
+        una cadena que incluye la clave en mayúsculas y el valor correspondiente del diccionario
+        héroe, o un mensaje que indica que no se encontraron los datos si la clave no está presente en el
+        diccionario.
     """
     dato = heroe[key]
     key_capitalizada = capitalizar_palabras(key)
     if dato:
-        return '{0} : {1}'.format(key_capitalizada,dato)
+        return '{0} : {1}'.format(key_capitalizada, dato)
     else:
         return 'No se encontró el dato'
 
-#1.8
+# 1.8
 
-def obtener_nombre_y_dato(heroe: dict, key: str) :
+
+def obtener_nombre_y_dato(heroe: dict, key: str):
     """
-    Esta función toma un diccionario que representa un héroe y una clave, y devuelve una cadena con el
-    nombre en mayúsculas del héroe y el valor asociado con la clave, o un mensaje que indica que no se
-    encontraron los datos.
-    
-    @param heroe Un diccionario que representa a un héroe, con claves que representan diferentes
-    atributos del héroe (por ejemplo, nombre, edad, poderes, etc.) y valores que representan los valores
-    correspondientes de esos atributos.
-    @param key El parámetro clave es una cadena que representa la clave del valor que queremos obtener
-    del diccionario del héroe.
-    
-    @return una cadena que concatena el nombre en mayúscula de un héroe y un valor de datos específico
-    de un diccionario, separados por un símbolo de canalización. Si el nombre o el valor de los datos no
-    se encuentran en el diccionario, la función devuelve una cadena que indica que no se encontraron los
-    datos.
+    La función toma un diccionario y una clave como entrada y devuelve una cadena formateada que
+    contiene el nombre en mayúsculas del diccionario y el valor asociado con la clave dada, o un mensaje
+    que indica que no se encontró la clave.
+
+    Parametros: 
+        -heroe(dict): un diccionario que contiene información sobre un héroe
+        -key(str) : una cadena que representa la clave de un valor específico a buscar en un diccionario. 
+
+
+    Retorno:
+    una cadena que concatena el nombre en mayúscula de un héroe y un valor de datos específico
+    de un diccionario. Si hubo un error la función devuelve una cadena que incluye el nombre y un mensaje
+    que indica que no se encontraron los datos.
     """
-    
+
     nombre = obtener_nombre_capitalizado(heroe)
     dato = obtener_dato(heroe, key)
-  
+
     if nombre and dato:
         return '{0} | {1}'.format(nombre, dato)
     else:
         return '{} | Dato no encontrado'.format(nombre)
 
 # 2 Segunda Parte
-#2.1    
+# 2.1
+
 
 def es_genero(heroe: dict, genero: str) -> bool:
     """
     La función comprueba si el género de un héroe determinado coincide con un género específico y
-    devuelve un valor booleano.
-    
-    @param heroe un diccionario que representa un personaje de superhéroe, que puede contener una clave
-    'genero' que indica el género del personaje
-    @param genero El parámetro "genero" es una cadena que representa el género que queremos buscar en el
-    diccionario de héroes.
-    
-    @return un valor booleano (Verdadero o Falso) dependiendo de si la clave 'genero' en el diccionario
-    de entrada 'heroe' coincide con la cadena de entrada 'genero'. Si la clave no está presente o no
-    coincide, la función devuelve False.
+    devuelve un valor booleano en consecuencia.
+
+    Parametros:
+        -heroe(dict): un diccionario que represente a un héroe, que debe tener una clave 
+        'genero' que indique el género del héroe.
+        -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
+
+    Retorno:
+        un valor booleano (Verdadero o Falso) dependiendo de si la clave 'genero' en el diccionario
+        de entrada 'heroe' coincide con la cadena de entrada 'genero'. Si la clave no está presente o no
+        coincide, la función devuelve False.
     """
 
     if 'genero' in heroe:
-        if heroe['genero'] == genero :
+        if heroe['genero'] == genero:
             return True
     return False
 
-#2.2
-def stark_guardar_heroe_genero(lista_heroes: list [dict], genero: str) -> bool:
+# 2.2
+
+
+def stark_guardar_heroe_genero(lista_heroes: list[dict], genero: str) -> bool:
     """
-    Esta función toma una lista de héroes y un género como entrada, filtra los héroes por género, guarda
-    los héroes filtrados en un archivo CSV y devuelve un valor booleano que indica si el archivo se
-    guardó correctamente.
-    
-    @param lista_heroes una lista de héroes, donde cada héroe se representa como un diccionario con las
-    claves 'nombre' (nombre), 'genero' (género) y 'poderes' (poderes)
-    @param genero El parámetro "genero" es una cadena que representa el género de los héroes que
-    queremos filtrar y guardar en un archivo CSV. Puede tener tres valores posibles: "M" para héroes
-    masculinos, "F" para héroes femeninos y "NB" para héroes no binarios.
-    
-    @return un valor booleano, que es el resultado de llamar a la función `guardar_archivo` con los
-    argumentos `nombre_archivo` y `heroes_genero`.
+    Esta función guarda una lista de héroes con un género específico en un archivo CSV.
+
+    Parametros:
+        lista_heroes (list[dict]) : una lista de diccionarios que contienen información sobre diferentes héroes
+       -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
+
+    :return: 
+        -un valor booleano : True si se guardo de lo contrario False.
     """
+
     heroes_genero = []
     for heroe in lista_heroes:
         if es_genero(heroe, genero):
@@ -304,22 +303,25 @@ def stark_guardar_heroe_genero(lista_heroes: list [dict], genero: str) -> bool:
 
 # 3  Tercera Parte
 
-#3.1
+# 3.1
 
-def calcular_min_genero(lista, key, genero : str) -> dict :
+
+def calcular_min_genero(lista: list[dict], key: str, genero: str) -> dict:
     """
-    Esta función calcula el héroe con el valor mínimo para una clave dada entre los héroes de un género
-    específico en una lista dada.
-    
-    @param lista una lista de diccionarios que representan superhéroes
-    @param key El parámetro clave es una cadena que representa el atributo del objeto héroe que queremos
-    comparar y encontrar el valor mínimo.
-    @param genero El parámetro "genero" es una cadena que representa el género del héroe. Se usa para
-    filtrar la lista de héroes y solo considerar aquellos que coinciden con el género especificado.
-    
-    @return La función `calcular_min_genero` devuelve el héroe con el valor mínimo para la clave dada
-    entre todos los héroes en la lista de entrada que tienen el género especificado. Si no hay héroes
-    con el género especificado en la lista, devuelve "Ninguno".
+    Esta función calcula el héroe con el valor mínimo para una clave dada
+    entre los héroes de un géneroespecífico en una lista dada.
+
+    parametro:
+        -lista una lista de diccionarios que representan héroes.
+        -key(str) : La clave es una cadena que representa el atributo del héroe.
+        -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
+
+    Retorno: 
+        min_heroe(dict) : un diccionario que contiene el héroe con el valor
+        mínimo para la clave especificada entre
+        los héroes del género especificado en la lista de entrada. Si la lista de 
+        entrada está vacía o nohay héroes del género especificado en la lista,
+        se devuelve un diccionario vacío.
     """
     min_heroe = {}
     if not lista:
@@ -330,7 +332,7 @@ def calcular_min_genero(lista, key, genero : str) -> dict :
         if es_genero(heroe, genero):
             primer_heroe = heroe
             break
-        
+
     if primer_heroe is None:
         return min_heroe
 
@@ -338,35 +340,37 @@ def calcular_min_genero(lista, key, genero : str) -> dict :
     min_heroe = primer_heroe
 
     for heroe in lista:
-        if  es_genero(heroe, genero) and heroe[key] < min_valor:
+        if es_genero(heroe, genero) and heroe[key] < min_valor:
             min_valor = heroe[key]
             min_heroe = heroe
     return min_heroe
 
-#3.2
+# 3.2
+
 
 def calcular_max_genero(lista, key, genero: str):
     """
-    La función calcula el héroe con el valor máximo para una clave dada entre los héroes de un género
-    específico en una lista dada.
-    
-    @param lista una lista de diccionarios que representan superhéroes
-    @param key El parámetro clave es una cadena que representa el atributo del objeto héroe que queremos
-    comparar para encontrar el valor máximo. Por ejemplo, si queremos encontrar al héroe con la fuerza
-    más alta, estableceríamos la clave en "fuerza".
-    @param genero El parámetro "genero" es una cadena que representa el género del héroe. Se usa para
-    filtrar la lista de héroes y solo considerar aquellos que coinciden con el género especificado.
-    
-    @return La función `calcular_max_genero` devuelve el héroe con el valor más alto para la clave dada
-    entre los héroes del género especificado en la lista de entrada. Si no hay héroes del género
-    especificado en la lista, devuelve "Ninguno".
+    Esta función calcula el héroe con el valor max para una clave dada
+    entre los héroes de un géneroes pecífico en una lista dada.
+
+    parametro:
+        -lista una lista de diccionarios que representan héroes.
+        -key(str) : La clave es una cadena que representa el atributo del héroe.
+       -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
+
+    Retorno: 
+        max_heroe(dict) : un diccionario que contiene el héroe con el valor
+        maximo para la clave especificada entre
+        los héroes del género especificado en la lista de entrada. Si la lista de 
+        entrada está vacía o nohay héroes del género especificado en la lista,
+        se devuelve un diccionario vacío.
     """
     max_heroe = {}
-    
+
     if not lista:
         return max_heroe
     primer_heroe = None
-    
+
     for heroe in lista:
         if es_genero(heroe, genero):
             primer_heroe = heroe
@@ -384,37 +388,40 @@ def calcular_max_genero(lista, key, genero: str):
             max_heroe = heroe
     return max_heroe
 
-#3.3
+# 3.3
 
-def calcular_max_min_dato_genero(lista_heroes, tipo_calculo, key_dato , genero: str)-> dict:
+
+
+
+def calcular_max_min_dato_genero(lista_heroes: list[dict], tipo_calculo:str, key_dato: str, genero: str) -> dict:
     """
-    Esta función calcula el valor máximo o mínimo de una clave de datos específica para un género dado
-    en una lista de héroes.
+    La función calcula el valor máximo o mínimo de una clave de datos específica para un género dado en
+    una lista de diccionarios que contienen información sobre héroes.
     
-    @param lista_heroes una lista de diccionarios que contienen información sobre superhéroes
-    @param tipo_calculo una cadena que indica si se debe calcular el valor máximo o mínimo
-    @param key_dato una cadena que representa la clave de los datos a calcular (por ejemplo,
-    "inteligencia", "fuerza", etc.)
-    @param genero una cadena que representa el género de los héroes a considerar en los cálculos.
-    
-    @return ya sea el valor máximo o mínimo de una clave de datos específica para un género dado en una
-    lista de héroes, dependiendo del valor del parámetro "tipo_calculo". Si el parámetro "key_dato" no
-    está presente en el primer elemento del parámetro "lista_heroes", la función imprime "¡Todo mal!" y
-    no devuelve nada.
+    Parametros:
+        -lista_heroes Una lista de diccionarios que contienen información sobre superhéroes.
+        -tipo_calculo una cadena que indica si se debe calcular el valor máximo o mínimo de los datos
+        -key_dato Este parámetro es una cadena que representa la clave de los datos para los que
+        queremos calcular el valor máximo o mínimo.
+        -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
+    Retorno:
+        max_min: un diccionario que contiene el valor máximo o mínimo, sino hubo errores de lo
+        contrario devuelve un diccionario vacío.
     """
-    # The above code is not a valid Python code. It seems to be a random word or a comment.
+
     max_min = {}
     if tipo_calculo == "maximo" and key_dato in lista_heroes[0]:
         max_min = calcular_max_genero(lista_heroes, key_dato, genero)
 
     elif tipo_calculo == "minimo" and key_dato in lista_heroes[0]:
         max_min = calcular_min_genero(lista_heroes, key_dato, genero)
-       
+
     else:
 
         print("Todo mal!")
-    return max_min 
-#3.4
+    return max_min
+# 3.4
+
 
 def stark_calcular_imprimir_guardar_heroe_genero(lista_heroes: list, max_min: str, key: str, genero: str) -> bool:
     """
@@ -424,84 +431,95 @@ def stark_calcular_imprimir_guardar_heroe_genero(lista_heroes: list, max_min: st
     - lista_heroes: list. Una lista de diccionarios con información de héroes.
     - max_min: str. String que puede tomar los valores "maximo" o "minimo", según se desee buscar el valor máximo o mínimo.
     - key: str. La llave del diccionario sobre la que se desea realizar la búsqueda.
-    - genero: str. String que representa el género a evaluar.
+   -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
     Retorna:
     - bool. True si se guardó el archivo exitosamente, False si no.
     """
 
-    heroe_obtenido = calcular_max_min_dato_genero(lista_heroes, max_min, key, genero)
+    heroe_obtenido = calcular_max_min_dato_genero(
+        lista_heroes, max_min, key, genero)
     heroe_obtenido = obtener_nombre_y_dato(heroe_obtenido, key)
     imprimir_dato(heroe_obtenido)
 
-    nombre_archivo = "./starks/heroes_{0}_{1}_{2}.csv".format(max_min, key, genero)
+    nombre_archivo = "./starks/heroes_{0}_{1}_{2}.csv".format(
+        max_min, key, genero)
     return guardar_archivo(nombre_archivo, heroe_obtenido)
 
-#4 Cuarta Parte
+# 4 Cuarta Parte
 
-#4.1
+# 4.1
 
-def sumar_dato_heroe_genero (lista_heroes: list[dict], key:str, genero: str )-> int:
+
+def sumar_dato_heroe_genero(lista_heroes: list[dict], key: str, genero: str) -> int:
     """
-    Esta función calcula la suma de un atributo específico (altura, peso o fuerza) para todos los héroes
-    de un género determinado en una lista de diccionarios.
+    Esta función toma una lista de diccionarios que representan superhéroes, una clave y un género, y
+    devuelve la suma de los valores de la clave dada para todos los superhéroes del género dado, o -1 si
+    no hay superhéroes de ese género.
     
-    @param lista_heroes una lista de diccionarios que representan superhéroes
-    @param key El parámetro clave es una cadena que representa el atributo del héroe que queremos
-    resumir. Puede ser "altura" (altura), "peso" (peso) o "fuerza" (fuerza).
-    @param genero una cadena que representa el género de los héroes a considerar en el cálculo
+    Parametros:
+        -lista_heroes (list[dict]): Una lista de diccionarios, donde cada diccionario es un solo superhéroe.
+        -key(str) :La clave es una cadena que representa el atributo del héroe que queremos sumar. 
+        -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
     
-    @return la suma de los valores de la clave especificada ("altura", "peso" o "fuerza") para todos los
-    héroes en la lista de entrada que coincidan con el género especificado. Si no hay héroes en la lista
-    que coincidan con el género o si la entrada no tiene el formato esperado, la función devuelve -1.
+    Retorno: 
+      suma(int): un valor entero, que es la suma de los valores de la clave en ese genero,o 
+      -1 si no hay héroes en la lista que coincidan con los criterios.
     """
+  
     suma = 0
-    
 
     for heroe in lista_heroes:
         if type(heroe) is dict and len(heroe) > 0 and es_genero(heroe, genero):
-            if key == "altura" or key == "peso" or key == "fuerza" :
+            if key == "altura" or key == "peso" or key == "fuerza":
                 suma += heroe[key]
     if suma > 0:
         return suma
     else:
         return -1
-#4.2
-def cantidad_heroes_genero(lista_heroes : list[dict], genero: str): 
+
+# 4.2
+
+
+def cantidad_heroes_genero(lista_heroes: list[dict], genero: str):
     """
     La función cuenta el número de héroes en una lista de diccionarios que coinciden con un género
     determinado.
     
-    @param lista_heroes una lista de diccionarios que representan superhéroes, donde cada diccionario
-    contiene información sobre un solo superhéroe, como su nombre, género, poderes, etc.
-    @param genero El parámetro "genero" es una cadena que representa el género de los héroes que
-    queremos contar en el parámetro "lista_heroes".
+    parametros: 
+        -lista_heroes (list[dict]): Una lista de diccionarios, donde cada diccionario es un solo superhéroe.
+        -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
     
-    @return el número de héroes en una lista dada de diccionarios que coinciden con un género
-    específico.
+    Retorno:
+        -contador(int):el número de héroes en una lista dada de diccionarios que coinciden con un género
+    específico sino se puedo contar devulve un 0.
     """
     contador = 0
-   
+
     for heroe in lista_heroes:
-        if es_genero(heroe , genero):
+        if es_genero(heroe, genero):
             contador += 1
 
     return contador
 
-#4.3
+# 4.3
 
-def calcular_promedio(lista_heroes, dato_calcular, genero) -> float:
+
+def calcular_promedio(lista_heroes: list[dict], dato_calcular: str, genero: str) -> float:
     """
-    Esta función calcula el promedio de un atributo de datos específico para un género dado entre una
-    lista de héroes.
+    Esta función calcula el promedio de un atributo de datos específico para una lista determinada de
+    héroes en función de su género.
     
-    @param lista_heroes Es una lista de objetos de héroe que contiene información sobre cada héroe, como
-    su nombre, género, poderes, etc.
-    @param dato_calcular Los datos a calcular para cada héroe, como su fuerza o nivel de inteligencia.
-    @param genero género de los héroes (por ejemplo, "masculino", "femenino", "no binario")
-    
-    @return el promedio calculado (promedio) de un dato dado (dato_calcular) para un género específico
-    (genero) entre una lista de héroes (lista_heroes). Si la lista está vacía, devuelve 0.
+    parametros: 
+        -lista_heroes (list[dict]): Una lista de diccionarios, donde
+        cada diccionario es un solo superhéroe.
+        -dato_calcular(str) :La clave es una cadena que representa el
+        atributo del héroe que queremos calcular el promedio..
+        -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
+ 
+    Retorno: 
+        -promedio: un valor flotante que representa el promedio o un 0 si hubo un error.
     """
+
     suma = 0
     promedio = 0
     if lista_heroes:
@@ -511,78 +529,95 @@ def calcular_promedio(lista_heroes, dato_calcular, genero) -> float:
         print("la cantidad es: {0}".format(cantidad))
         promedio = dividir(suma, cantidad)
         print("el promedio es : {0}".format(promedio))
-            
+
     return promedio
 
-def dividir(dividendo, divisor)-> float: 
+
+def dividir(dividendo: int, divisor: int) -> float:
     """
-    La función divide dos números y devuelve el resultado, pero si el divisor es cero, devuelve cero.
+    La función divide dos números y devuelve el resultado, o 0 si el divisor es 0.
     
-    @param dividendo El dividendo, o el número que se divide.
-    @param divisor El divisor es un número que se usa para dividir el dividendo en la función. No puede
-    ser cero, ya que dividir por cero no está definido.
+    Parametros: 
+        -dividendo(int) : El número que se está dividiendo.
+        -divisor(int) : El número que divide el dividendo en la operación de división.
     
-    @return La función `dividir` devuelve el resultado de dividir `dividendo` entre `divisor`, a menos
-    que `divisor` sea igual a 0, en cuyo caso devuelve 0.
+    Retorno:  
+        el resultado de dividir el 'dividendo' por el 'divisor' como un flotante, a menos que el
+        'divisor' sea 0, en cuyo caso devuelve 0.
     """
+
     if divisor == 0:
         return 0
     else:
-        resultado = dividendo / divisor 
+        resultado = dividendo / divisor
     return resultado
-#4.4
-def stark_calcular_imprimir_guardar_promedio_altura_genero (lista_heroes, genero):
+
+# 4.4
+
+
+def stark_calcular_imprimir_guardar_promedio_altura_genero(lista_heroes:list[dict], genero: str):
     """
-    Esta función calcula e imprime la altura promedio de los héroes de un género determinado de una
-    lista y guarda el resultado en un archivo CSV.
+    Esta función calcula y guarda la altura promedio de los héroes de un género específico de una lista
+    de héroes dada.
     
-    @param lista_heroes una lista de diccionarios que contienen información sobre superhéroes, incluida
-    su altura y género.
-    @param genero género (en español)
+    Parametros: 
+        -lista_heroes (list[dict]): Una lista de diccionarios, donde
+        cada diccionario es un solo superhéroe.
+        -genero(str): el genero (ya sea "M" para hombre o "F" para mujer)
     
-    @return un valor booleano, ya sea Verdadero o Falso, dependiendo de si el archivo se guardó
+    Retorno:  
+    un valor booleano, ya sea Verdadero o Falso, dependiendo de si el archivo se guardó
     correctamente o no.
     """
-    
+
+
     promedio_altura = 0
-    if lista_heroes :
-        promedio_altura = calcular_promedio(lista_heroes,"altura", genero)
-        mensaje = "Altura promedio género {0} : {1:.2f}".format(genero, promedio_altura)
+    if lista_heroes:
+        promedio_altura = calcular_promedio(lista_heroes, "altura", genero)
+        mensaje = "Altura promedio género {0} : {1:.2f}".format(
+            genero, promedio_altura)
     else:
         mensaje = "Error: Lista de héroes vacía. "
     imprimir_dato(mensaje)
-    archivo_promedio_altura = './starks/heroes_promedio_altura_{}.csv'.format(genero)
+    archivo_promedio_altura = './starks/heroes_promedio_altura_{}.csv'.format(
+        genero)
 
     datos = 'genero: {0}, promedio_altura: {1}'.format(genero, promedio_altura)
-    if guardar_archivo(archivo_promedio_altura,datos):
-        return True
-    else :
-        return False
+    return guardar_archivo(archivo_promedio_altura, datos)
+
+# 5 Quinta Parte
+
+# 5.1
+
+
+def calcular_cantidad_tipo(lista_heroes: list[dict], tipo: str) -> dict:
+    """
+    Esta función toma una lista de héroes y un tipo de atributo de héroe como entrada y devuelve un
+    diccionario con el recuento de cada valor único para ese atributo.
+
+    Parametros: 
+        -lista_heroes (list[dict]): Una lista de diccionarios, donde
+        cada diccionario es un solo superhéroe.
+        -tipo una cadena que representa el tipo de información que se extraerá de la lista de héroes.
+        Esta función toma una lista de diccionarios, donde cada diccionario representa un héroe y contiene
+        información diversa sobre ellos, como nombre, poderes y afiliaciones. El parámetro "tipo" especifica
+        qué tipo de información extraer, como
     
-#5 Quinta Parte
-#5.1 
-def calcular_cantidad_tipo(lista_heroes, tipo: str) -> dict:
+    Retorno  
+        -un diccionario que contiene el recuento de héroes según el tipo especificado. Si la lista de
+        entrada está vacía, devuelve un diccionario con un mensaje de error.
     """
-    Esta función toma una lista de héroes y devuelve un diccionario con el recuento de cada tipo de héroe.
 
-    @param lista_heroes una lista de diccionarios que representan héroes, donde cada diccionario
-    contiene información sobre un héroe, como su nombre, poderes y tipo.
-    @param tipo un string que representa el tipo de dato a buscar en los diccionarios de los héroes.
-
-    @return un diccionario que contiene el recuento de cada tipo de héroe en la lista de entrada de
-    héroes. Si la lista de entrada está vacía, la función devuelve un diccionario con un mensaje de
-    error.
-    """
     diccionario = {}
 
     if lista_heroes:
         for heroe in lista_heroes:
-            valor = heroe.get(tipo, 'No Tiene')
+            valor = heroe[tipo]
             if valor != '':
                 valor = capitalizar_palabras(valor)
             else:
                 valor = 'No Tiene'
-            
+
             if valor in diccionario:
                 diccionario[valor] += 1
             else:
@@ -592,71 +627,80 @@ def calcular_cantidad_tipo(lista_heroes, tipo: str) -> dict:
 
     return diccionario
 
+# 5.2
 
-#5.2
+
+
 def guardar_cantidad_heroes_tipo(diccionario, tipo_dato):
     """
-    Esta función guarda la cantidad de héroes para cada característica de un tipo de datos dado en un
-    archivo CSV.
+    Esta función guarda la cantidad de héroes de cierto tipo en un diccionario en un archivo CSV.
     
-    @param diccionario Un diccionario que contiene las características de los héroes y su
-    correspondiente cantidad.
-    @param tipo_dato una cadena que representa el tipo de datos que se analizan (por ejemplo, "poderes",
-    "habilidades", "nacionalidades")
+    @param diccionario Un diccionario que contiene información sobre los héroes y sus características.
+    @param tipo_dato El tipo de datos de los héroes, como "poderes" o "habilidades".
     
-    @return Un valor booleano que indica si el archivo se guardó correctamente o no.
+    @return un valor booleano, ya sea Verdadero o Falso, dependiendo de si el archivo se guardó
+    correctamente o no.
     """
-    mensaje = ''
+    contenido = ''
     for key, value in diccionario.items():
-        mensaje += "Caracteristica: {0} {1} - Cantidad de heroes: {2}\n".format(tipo_dato, key, value)
+        mensaje = "Caracteristica: {0} {1} - Cantidad de heroes: {2}\n".format(
+            tipo_dato, key, value)
+        imprimir_dato(mensaje)
+        contenido += mensaje
 
     archivo = "./starks/heroes_cantidad_{0}.csv".format(tipo_dato)
 
-    if guardar_archivo(archivo, mensaje):
+    if guardar_archivo(archivo, contenido):
         return True
     else:
         return False
-#5.3
+
+# 5.3
+
+
 def stark_calcular_cantidad_por_tipo(heroes, tipo):
     """
-    Esta función calcula la cantidad de héroes por tipo y guarda el resultado en un archivo CSV.
+    Esta función calcula la cantidad de héroes por tipo dado y guarda el resultado.
     
-    @param heroes Es una lista de diccionarios que contienen información sobre diferentes héroes. Cada
-    diccionario representa a un héroe y contiene claves como "nombre", "tipo", "poder", etc.
+    @param heroes una lista de diccionarios que representan superhéroes, donde cada diccionario contiene
+    información sobre un solo superhéroe, como su nombre, poderes y tipo (por ejemplo, "héroe" o
+    "villano").
     @param tipo El parámetro "tipo" es una cadena que representa el tipo de héroe para el que queremos
-    calcular la cantidad. Se utiliza en la función para crear un nombre de archivo para el archivo CSV
-    que se guardará con los resultados.
+    calcular la cantidad. Se utiliza en las funciones "calcular_cantidad_tipo" y
+    "guardar_cantidad_heroes_tipo" para determinar qué héroes contar y cómo almacenar el resultado.
     
-    @return the result of the function call to `guardar_cantidad_heroes_tipo(cantidad_heroes, tipo,
-    nombre_archivo)`.
+    @return the result of the function call to `guardar_cantidad_heroes_tipo(cantidad_heroes, tipo)`.
     """
+
     cantidad_heroes = calcular_cantidad_tipo(heroes, tipo)
-    guardado = guardar_cantidad_heroes_tipo(cantidad_heroes, tipo )
+    guardado = guardar_cantidad_heroes_tipo(cantidad_heroes, tipo)
     return guardado
 
 # 6  Sexta Parte
-#6.1
+# 6.1
+
 
 def obtener_lista_de_tipos(heroes, tipo):
     """
-    Esta función toma una lista de héroes y un tipo, y devuelve una lista de valores únicos para ese
-    tipo, con la primera letra de cada palabra en mayúscula.
-
-    @param heroes: una lista de diccionarios que representan diferentes héroes, donde cada diccionario
-    contiene información sobre un héroe, como su nombre, poderes y tipo.
-    @param tipo: El parámetro "tipo" es una cadena que representa la clave del diccionario que contiene
-    el tipo de cada héroe en la lista de "héroes".
-
-    @return: una lista de valores únicos para un tipo dado de héroe en la lista de entrada de héroes, con
-    cualquier valor vacío reemplazado con "N/A" y con cada valor en mayúscula usando la función
-    capitalizar_palabras.
+    Esta función toma una lista de héroes y un tipo de héroe y devuelve una lista de valores únicos en
+    mayúsculas para ese tipo de héroe.
+    
+    @param heroes una lista de diccionarios que representan diferentes héroes, donde cada diccionario
+    contiene información sobre un héroe como su nombre, tipo, habilidades, etc.
+    @param tipo El tipo de atributo de héroe para el que queremos obtener una lista de valores únicos.
+    Por ejemplo, si queremos obtener una lista de valores únicos para el atributo "clase" de los héroes,
+    pasaríamos "clase" como el valor de tipo.
+    
+    @return una lista de valores únicos en mayúsculas para un tipo determinado de héroe en una lista de
+    héroes. El tipo de héroe se especifica mediante el parámetro "tipo".
     """
+
     valores_tipo_actualizados = []
     for heroe in heroes:
         valor = heroe[tipo]
         if not valor:
             valor_normalizado = normalizar_dato(valor, 'N/A')
-        else :
+        else:
             valor_normalizado = valor
         valor_capitalizado = capitalizar_palabras(valor_normalizado)
         valores_tipo_actualizados.append(valor_capitalizado)
@@ -668,43 +712,45 @@ def obtener_lista_de_tipos(heroes, tipo):
 
     return valores_tipo_unicos
 
+# 6.2
 
-#6.2
+
 def normalizar_dato(dato, default):
     """
-    La función normaliza un dato dado reemplazándolo con un valor predeterminado si está vacío o es
-    nulo.
+    La función normaliza datos dados reemplazándolos con un valor predeterminado si los datos están
+    vacíos o son nulos.
     
     @param dato Los datos de entrada que deben normalizarse.
-    @param default El valor predeterminado que se devolverá si el parámetro de entrada 'dato' está vacío
-    o es Ninguno.
+    @param default El valor predeterminado para usar si la entrada `dato` está vacía o Ninguno.
     
     @return el valor normalizado de la entrada "dato". Si "dato" está vacío o Ninguno, se reemplazará
-    por el valor predeterminado proporcionado como parámetro. Luego se devuelve el valor final de
-    "dato".
+    por el valor predeterminado y luego se devolverá.
     """
+
 
     if not dato:
-       dato= default
-    
+        dato = default
+
     return dato
 
-#6.3
+# 6.3
+
+
 def normalizar_heroe(heroe, key):
     """
-    Esta función normaliza el valor del atributo de un héroe poniendo en mayúsculas las palabras y
-    reemplazando los valores faltantes con "N/A".
+    Esta función normaliza los datos de un héroe poniendo en mayúscula su nombre y normalizando el valor
+    de una clave específica.
     
-    @param heroe El diccionario de héroes que contiene información sobre un héroe, como su nombre, poder
-    y otros atributos.
-    @param key El parámetro clave es una cadena que representa el atributo del héroe que queremos
-    normalizar. Puede ser cualquier atributo como 'edad', 'genero', 'poder', etc.
+    @param heroe un diccionario que contiene información sobre un superhéroe
+    @param key El parámetro "clave" es una cadena que representa la clave de un atributo específico en
+    un diccionario. Esta clave se utiliza para acceder al valor correspondiente en el diccionario
+    "heroe" que se pasa como argumento a la función "normalizar_heroe". La función luego normaliza el
+    valor de
     
-    @return un diccionario con los valores normalizados del nombre del héroe de entrada y la clave
-    especificada. El valor de la clave especificada se escribe en mayúscula y se normaliza mediante la
-    función `normalizar_dato`, y el nombre del héroe también se escribe en mayúscula.
+    @return un diccionario que contiene los datos normalizados de un héroe, con el nombre del héroe en
+    mayúscula y el valor de una clave específica también en mayúscula y normalizado.
     """
-    
+
     heroe_normalizado = {}
 
     if 'nombre' in heroe:
@@ -716,26 +762,26 @@ def normalizar_heroe(heroe, key):
         heroe_normalizado[key] = capitalizar_palabras(valor)
 
     return heroe_normalizado
-#6.4
+
+# 6.4
+
+
 def obtener_heroes_por_tipo(heroes, tipos, tipo_dato):
     """
-    Obtiene los héroes por tipo de dato.
-
-    Recibe una lista de héroes, un conjunto de tipos/variedades y el tipo de dato a evaluar.
-    Itera sobre los tipos/variedades y por cada tipo, evalúa si ese tipo existe como clave en un diccionario.
-    En caso de no existir, agrega la clave al diccionario con una lista vacía como valor.
-    Luego, itera sobre la lista de héroes y, para cada héroe, normaliza el valor del tipo de dato usando la función 'normalizar_dato'.
-    Si el valor normalizado coincide con el tipo actual, agrega el nombre del héroe a la lista correspondiente en el diccionario.
-    Al final, retorna el diccionario con cada tipo/variedad como clave y una lista de nombres de héroes como valor.
-
-    Args:
-        heroes (list): Lista de diccionarios que representan a los héroes.
-        tipos (set): Conjunto de tipos/variedades a evaluar.
-        tipo_dato (str): El tipo de dato a evaluar en los héroes.
-
-    Returns:
-        dict: Diccionario con cada tipo/variedad como clave y una lista de nombres de héroes como valor.
+    Esta función toma una lista de héroes, una lista de tipos y un tipo de datos, y devuelve un
+    diccionario de héroes agrupados por sus respectivos tipos según el tipo de datos dado.
+    
+    @param heroes una lista de diccionarios que representan diferentes héroes, cada uno con varios
+    atributos como nombre, tipo y habilidades.
+    @param tipos una lista de cadenas que representan los diferentes tipos de héroes (por ejemplo,
+    "tanque", "apoyo", "daño")
+    @param tipo_dato una cadena que representa el tipo de datos que se normalizarán para cada héroe (por
+    ejemplo, "rol" o "afinidad")
+    
+    @return un diccionario donde las claves son los tipos de héroes especificados en el parámetro
+    `tipos`, y los valores son listas de nombres de héroes que pertenecen a cada tipo.
     """
+
     heroes_por_tipo = {}
 
     for tipo in tipos:
@@ -743,54 +789,61 @@ def obtener_heroes_por_tipo(heroes, tipos, tipo_dato):
 
     for heroe in heroes:
         valor_tipo = normalizar_heroe(heroe, tipo_dato)
-        nombre = valor_tipo['nombre']  # Obtener el nombre del héroe del diccionario normalizado
+        # Obtener el nombre del héroe del diccionario normalizado
+        nombre = valor_tipo['nombre']
         for tipo in tipos:
             if valor_tipo[tipo_dato] == tipo:
                 heroes_por_tipo[tipo].append(nombre)
 
     return heroes_por_tipo
 
-
 # 6.5
 
-def guardar_heroes_por_tipo(diccionario_tipos_nombres, tipo_dato):
-    '''La función guardar_heroes_por_tipo guarda los 
-    nombres de los héroes organizados por tipo en un
-    archivo CSV. Recibe un diccionario de tipos y nombres 
-    de héroes, formatea los datos y los guarda en un archivo
-    con el nombre basado en el tipo de dato. Retorna True
-    si la operación es exitosa y False en caso contrario.'''    
+
+def guardar_heroes_por_tipo(diccionario_tipos_nombres: dict, tipo_dato: str) -> bool:
+    """
+    Esta función toma un diccionario de tipos y nombres de héroes, y una cadena de tipos de datos, y
+    guarda los héroes agrupados por su tipo en un archivo CSV.
+    
+    @param diccionario_tipos_nombres Un diccionario que contiene nombres de héroes categorizados por su
+    tipo.
+    @param tipo_dato una cadena que representa el tipo de datos que se almacenan
+    
+    @return un valor booleano.
+    """
+ 
 
     contenido = ""
 
-    for tipo, heroes in diccionario_tipos_nombres.items():
-        if len(heroes) > 0:
-            nombres_heroes = " | ".join(heroes)
-            contenido += "{} {}: {}\n".format(tipo_dato, tipo, nombres_heroes)
+    for key, valor in diccionario_tipos_nombres.items():
+        if len(valor) > 0:
+            nombres_heroes = ",".join(valor)
+            mensaje = "{} {}: {}\n".format(tipo_dato, key, nombres_heroes)
+            imprimir_dato(mensaje)
+            contenido += mensaje
 
     archivo = "./starks/heroes_segun_{0}.csv".format(tipo_dato)
     return guardar_archivo(archivo, contenido)
 
+# 6.6
 
 
-#6.6
-def stark_listar_heroes_por_dato(heroes, tipo_dato):
+
+def stark_listar_heroes_por_dato(lista_heroes:list[dict], tipo_dato: str)-> bool:
     """
-    Esta función toma una lista de héroes y un tipo de datos, crea un diccionario de héroes agrupados
-    por ese tipo de datos y devuelve el diccionario.
+    La función toma una lista de diccionarios que contienen información sobre héroes y un tipo de datos,
+    y devuelve un valor booleano que indica si los héroes se han agrupado correctamente por ese tipo de
+    datos.
     
-    @param heroes Este parámetro es probablemente una lista de diccionarios, donde cada diccionario
-    representa un héroe y contiene información sobre ese héroe, como su nombre, poderes y otras
-    características.
-    @param tipo_dato El parámetro "tipo_dato" hace referencia al tipo de datos que queremos utilizar
-    para filtrar y agrupar a los héroes. Por ejemplo, si queremos agrupar a los héroes por su
-    "superpoder", entonces "tipo_dato" sería "superpoder".
+    @param lista_heroes una lista de diccionarios que contienen información sobre diferentes héroes.
+    @param tipo_dato una cadena que representa el tipo de datos que se usarán para agrupar a los héroes
+    en la lista. Por ejemplo, si tipo_dato es "género", la función agrupará a los héroes por su género.
     
-    @return resultado de llamar a la función `guardar_heroes_por_tipo` con el argumento
-    `dict_heroes_por_tipo` y `tipo_dato`.
+    @return un valor booleano.
     """
-    lista_tipos = obtener_lista_de_tipos(heroes, tipo_dato)
-    #print("lista de tipos {0}".format(lista_tipos))
-    dict_heroes_por_tipo = obtener_heroes_por_tipo(heroes, lista_tipos, tipo_dato)
-    print("diccionario_tipo listas :{0}".format(dict_heroes_por_tipo))
+
+ 
+    lista_tipos = obtener_lista_de_tipos(lista_heroes, tipo_dato)
+    dict_heroes_por_tipo = obtener_heroes_por_tipo(
+        lista_heroes, lista_tipos, tipo_dato)
     return guardar_heroes_por_tipo(dict_heroes_por_tipo, tipo_dato)

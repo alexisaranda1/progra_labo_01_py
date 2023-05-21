@@ -51,22 +51,28 @@ def imprimir_menu_Desafio():
     '''
     imprimir_dato(menu)
 
-def stark_menu_principal_desafio(opcion : str, expresion : str):
+def validacion(opcion : str, expresion : str):
     """
-    Esta función muestra un menú y solicita al usuario que ingrese una opción, devolviendo la opción si
-    coincide con un patrón determinado o -1 de lo contrario.
+    La función toma una cadena y una expresión regular y devuelve la cadena original si coincide con la
+    expresión regular; de lo contrario, devuelve "-1".
     
-    @return Si la entrada del usuario coincide con el patrón de expresión regular '[A-OZ]{1}', la
-    función devolverá la cadena de entrada en mayúsculas. De lo contrario, devolverá -1.
+    @param opcion una variable de cadena que representa la opción de entrada del usuario
+    @param expresion El parámetro "expresión" es un patrón de expresión regular que se utiliza para
+    validar el parámetro "opcion". Es una cadena que contiene un conjunto de reglas que definen lo que
+    se considera una entrada válida para el parámetro "opcion". El patrón de expresión regular se usa
+    para hacer coincidir la cadena de entrada con
+    
+    @return la opción validada como una cadena. Si la opción no coincide con la expresión regular
+    proporcionada en el parámetro "expresión", devolverá "-1".
     """
+ 
     opcion_validado = "-1"
-    imprimir_menu_Desafio()
-
-    #if re.match('^[1-7]{1}$', opcion):
+  
     if re.match(expresion, opcion):   
         opcion_validado = opcion
 
     return opcion_validado
+
 def stark_normalizar_datos(lista_heroes: list[dict]) -> None:
     '''Recorrer la lista y convertir al tipo de dato correcto las keys (solo con las keys que 
     representan datos numéricos)
@@ -138,7 +144,7 @@ def guardar_archivo(nombre_archivo:str, contenido)-> bool:
     return False
 
 
-def ordenar_por_clave(lista, flag_orden, clave):
+def ordenar_por_clave(lista: list[dict], clave: str, flag_orden: bool):
     """
     Ordena una lista de diccionarios en base a una clave específica.
 
@@ -163,34 +169,97 @@ def ordenar_por_clave(lista, flag_orden, clave):
                 
                 lista_nueva[indice_A], lista_nueva[indice_A+1] = lista_nueva[indice_A+1], lista_nueva[indice_A]
                 flag_swap = True
-
+    return lista_nueva
                 
 def stark_marvel_app (lista_personajes: list[dict])-> None:
     stark_normalizar_datos(lista_personajes)
 
     while True:
+        mensaje_error = "Error, incorrecto!"
+        imprimir_menu_Desafio()
         opcion = input("Ingrese una opcion: ")
-        opcion = stark_menu_principal_desafio(opcion , r'^[1-7]{1}$')
+        opcion = validacion(opcion , r'^[1-7]{1}$')
+        int_opcion = int(opcion)
 
-        match opcion:
+        match int_opcion:
             case 1:
-                
-                #  re.match('[0-9]{1,2}', N:
-                pass
+
+                numero_str = input("\n\n\n\nIngrese la cantidad de heroes a imprimir: ")
+                numero_str = validacion(numero_str , r'^[0-9]{1,2}$')
+                numero_entero = int(numero_str)
+
+                if numero_entero <= len(lista_personajes) and numero_entero < 0:
+                    for i in range(numero_entero):
+                        print("Nombre : {0}".format(lista_personajes[i]["nombre"]))
+                else: 
+                   imprimir_dato(mensaje_error) 
             case 2:
+                forma_ordenar = input("\n\n\n\nIngrese (asc) para ordenar de forma acendente o (desc) para ordenar de forma desendente: ")
+                forma_ordenar = validacion(forma_ordenar , r'^(asc|desc)$')
+
+                if forma_ordenar == "asc":
+                    lista_ordenada = ordenar_por_clave(lista_personajes,"altura", False)
+                    for personaje in lista_ordenada:
+                        nombre = personaje["nombre"]
+                        altura = personaje["altura"]
+                        mesaje = "Nombre : {0}, altura : {1}".format(nombre, altura)
+                        imprimir_dato(mesaje)
+                elif forma_ordenar == "desc":
+                    lista_ordenada = ordenar_por_clave(lista_personajes,"altura", True)
+                    for personaje in lista_ordenada:
+                        nombre = personaje["nombre"]
+                        altura = personaje["altura"]
+                        mesaje = "Nombre : {0}, altura : {1}".format(nombre, altura)
+                        imprimir_dato(mesaje)
+
+                else :
+                    imprimir_dato(mensaje_error) 
                 pass
             case 3:
+                forma_ordenar = input("\n\n\n\nIngrese (asc) para ordenar de forma acendente o (desc) para ordenar de forma desendente: ")
+                forma_ordenar = validacion(forma_ordenar , r'^(asc|desc)$')
+                if forma_ordenar == "asc":
+                    lista_ordenada = ordenar_por_clave(lista_personajes,"fuerza", False)
+                    for personaje in lista_ordenada:
+                        nombre = personaje["nombre"]
+                        fuerza = personaje["fuerza"]
+                        mesaje = "Nombre : {0}, fuerza : {1}".format(nombre, fuerza)
+                        imprimir_dato(mesaje)
+                elif forma_ordenar == "desc":
+                    lista_ordenada = ordenar_por_clave(lista_personajes,"fuerza", True)
+                    for personaje in lista_ordenada:
+                        nombre = personaje["nombre"]
+                        fuerza = personaje["fuerza"]
+                        mesaje = "Nombre : {0}, fuerza : {1}".format(nombre, fuerza)
+                        imprimir_dato(mesaje)
+
+                else :
+                    imprimir_dato(mensaje_error) 
                 pass
             case 4:
                 pass
             case 5:
-                pass
+
+                intelengencia_buscar = input("\n\n\n\nIngrese el tipo de inteligencia [good, average, high]: ")
+                intelengencia_buscar = validacion(intelengencia_buscar , r'^(good|average|high)$')
+                if intelengencia_buscar != "-1" :
+                    for personaje in lista_personajes:  
+                        if intelengencia_buscar == personaje["inteligencia"]:               
+                            nombre = personaje["nombre"]
+                            mesaje = "Nombre : {0}, inteligencia : {1}".format(nombre, intelengencia_buscar)
+                            imprimir_dato(mesaje)
+                else :
+                    imprimir_dato(mensaje_error)
+
+
+                    
             case 6:
                 pass
             case 7:
+                print("Salio del progrma!")
                 break
             case _:
-                print("opcion incorrecta!")
+                 imprimir_dato(mensaje_error) 
 
         clear_console()           
 
@@ -199,3 +268,4 @@ def stark_marvel_app (lista_personajes: list[dict])-> None:
 
 ruta = r"starks\data_stark.json"
 lista_personajes = leer_archivo(ruta)
+stark_marvel_app(lista_personajes)

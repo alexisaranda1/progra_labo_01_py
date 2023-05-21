@@ -2,7 +2,6 @@
 import os
 from funciones_desafio import *
 
-
 def clear_console() -> None:
     """
     It waits for the user to hit enter 
@@ -11,11 +10,17 @@ def clear_console() -> None:
     _ = input('Press a key to continue...')
     os.system('cls')
 
-#main
-
 #1.3
 
 def stark_marvel_app (lista_personajes: list[dict])-> None:
+    """
+    Toma una lista de diccionarios que representan personajes de Marvel y
+    proporciona un menú de opciones para realizar varios cálculos y operaciones en los datos.
+    parametro: 
+        -lista_personajes: Una lista de diccionarios donde cada diccionario representa un personaje.
+    retorno: 
+        -None: la funcion no retorna ningun valor.
+    """
     stark_normalizar_datos(lista_personajes)
 
     while True:
@@ -68,11 +73,5 @@ def stark_marvel_app (lista_personajes: list[dict])-> None:
 
 ruta = r"C:\Users\Axex Shop\Desktop\progra_labo_01\progra_labo_01_py\Progra_labo _I\starks\data_stark.json"
 lista_personajes = leer_archivo(ruta)
-
-
-
-
-
-
 
 stark_marvel_app(lista_personajes)
