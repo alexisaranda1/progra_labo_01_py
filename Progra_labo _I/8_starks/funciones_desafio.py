@@ -19,10 +19,10 @@ def stark_normalizar_datos(lista_heroes: list[dict]) -> None:
             for key in key_list:
 
                 if type(heroe[key]) is str:
+                    
                     if not heroe[key]:
-                        pass
-                        # heroe[key]= 'No tiene'
-                        # print(heroe)
+                        heroe[key]= 'No tiene'
+                        print(heroe)
                     else:
                         valor_reemplazado: str = heroe[key].replace(
                             '.', '')  # reemplaza un "." por un ""
@@ -146,7 +146,7 @@ def guardar_archivo(nombre_archivo: str, contenido: str) -> bool:
     """
 
     with open(nombre_archivo, 'w+') as archivo:
-        resultado = None
+        resultado = None # 
         resultado = archivo.write(contenido)
     if resultado:
         print("Se creó el archivo: {0}".format(nombre_archivo))
